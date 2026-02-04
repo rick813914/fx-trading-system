@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "fx-trading-system-backend"
+version = "0.1.0"
+description = "Backend for the FX Trading Order Management System"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "backend"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+# 主要的依赖将在后续阶段逐步添加，这里先预留结构
+# Django = "^4.2"
+# djangorestframework = "^3.14"
+# psycopg2-binary = "^2.9"
+# redis = "^4.5"
+# celery = "^5.3"
+# django-cors-headers = "^4.0"
+# django-storages = "^1.13"
+# pandas = "^2.0"
+# python-jose = "^3.3"
+# pyjwt = "^2.8"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.0"
+flake8 = "^6.0"
+isort = "^5.12"
+pytest = "^7.4"
+pytest-django = "^4.5"
+ipython = "^8.14"
+pre-commit = "^3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# Django 相关配置 (可选，用于提示)
+[tool.django]
+project_name = "backend"
+settings_module = "config.settings.development"
