@@ -1,95 +1,262 @@
+# docker-compose.yml - Docker容器编排配置文件
+# 用于定义和管理多容器Docker应用程序的服务、网络和卷
+# 此文件为外汇交易系统开发环境定义所有基础设施服务
+
+# ============================================================================
+# 服务定义部分
+# 定义应用程序所需的各种服务容器
+# ============================================================================
 services:
-  # PostgreSQL 数据库
+  # ==========================================================================
+  # PostgreSQL 数据库服务
+  # 用于存储应用程序的持久化数据
+  # ==========================================================================
   postgres:
+    # 使用PostgreSQL官方镜像的15版本，基于Alpine Linux，轻量级
     image: postgres:15-alpine
+    
+    # 容器名称，便于识别和管理
     container_name: fx-postgres-dev
+    
+    # 重启策略：除非手动停止，否则总是重启
     restart: unless-stopped
+    
+    # 环境变量配置
     environment:
+      # 数据库管理员用户名
       POSTGRES_USER: postgres
+      # 数据库管理员密码 - 注意：生产环境应使用更安全的密码
       POSTGRES_PASSWORD: devpassword123
+      # 初始创建的数据库名称
       POSTGRES_DB: fx_trading_dev
+    
+    # 端口映射：主机端口:容器端口
     ports:
+      # 将主机的5432端口映射到容器的5432端口
       - "5432:5432"
+    
+    # 卷挂载配置：数据持久化
     volumes:
+      # 命名卷，用于持久化PostgreSQL数据
       - postgres_data:/var/lib/postgresql/data
+      # 绑定挂载，将本地SQL初始化脚本挂载到容器初始化目录
       - ./docker/postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    
+    # 健康检查配置：确保服务正常运行
     healthcheck:
+      # 测试命令：使用pg_isready检查PostgreSQL是否就绪
       test: ["CMD-SHELL", "pg_isready -U postgres"]
+      # 检查间隔：每10秒检查一次
       interval: 10s
+      # 超时时间：每次检查最多等待5秒
       timeout: 5s
+      # 重试次数：连续失败5次后标记为不健康
       retries: 5
 
-  # Redis 缓存与消息代理
+  # ==========================================================================
+  # Redis 缓存与消息代理服务
+  # 用于缓存数据和Celery任务队列的消息代理
+  # ==========================================================================
   redis:
+    # 使用Redis官方镜像的7版本，基于Alpine Linux
     image: redis:7-alpine
+    
+    # 容器名称
     container_name: fx-redis-dev
+    
+    # 重启策略
     restart: unless-stopped
+    
+    # 端口映射
     ports:
+      # 将主机的6379端口映射到容器的6379端口
       - "6379:6379"
+    
+    # 卷挂载配置
     volumes:
+      # 命名卷，用于持久化Redis数据
       - redis_data:/data
+    
+    # 容器启动命令：启用AOF持久化
     command: redis-server --appendonly yes
+    
+    # 健康检查配置
     healthcheck:
+      # 测试命令：使用redis-cli发送PING命令
       test: ["CMD", "redis-cli", "ping"]
+      # 检查间隔
       interval: 10s
+      # 超时时间
       timeout: 5s
+      # 重试次数
       retries: 5
 
-  # MinIO 对象存储 (用于文件上传)
+  # ==========================================================================
+  # MinIO 对象存储服务
+  # 用于文件上传和存储，兼容S3 API
+  # ==========================================================================
   minio:
+    # 使用MinIO官方最新镜像
     image: minio/minio:latest
+    
+    # 容器名称
     container_name: fx-minio-dev
+    
+    # 重启策略
     restart: unless-stopped
+    
+    # 环境变量配置
     environment:
+      # MinIO管理员用户名
       MINIO_ROOT_USER: minioadmin
+      # MinIO管理员密码
       MINIO_ROOT_PASSWORD: minioadmin123
+    
+    # 端口映射
     ports:
-      - "9000:9000"   # API端口
-      - "9001:9001"   # 控制台端口
+      # 9000端口：MinIO API端口，用于程序访问
+      - "9000:9000"
+      # 9001端口：MinIO控制台端口，用于Web管理界面
+      - "9001:9001"
+    
+    # 卷挂载配置
     volumes:
+      # 命名卷，用于持久化MinIO存储的数据
       - minio_data:/data
+    
+    # 容器启动命令：指定数据目录和控制台地址
     command: server /data --console-address ":9001"
+    
+    # 健康检查配置
     healthcheck:
+      # 测试命令：使用curl检查MinIO健康状态
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      # 检查间隔较长，因为MinIO启动需要更多时间
       interval: 30s
+      # 超时时间
       timeout: 20s
+      # 重试次数
       retries: 3
 
-  # (后续阶段添加) - 后端服务
+  # ==========================================================================
+  # 后端服务 (注释状态 - 后续阶段添加)
+  # Django应用程序容器
+  # ==========================================================================
   # backend:
+  #   # 构建配置：从指定目录的Dockerfile构建镜像
   #   build:
+  #     # Dockerfile所在上下文目录
   #     context: ./backend
+  #     # 使用的Dockerfile文件名
   #     dockerfile: Dockerfile.dev
+  #   
+  #   # 容器名称
   #   container_name: fx-backend-dev
+  #   
+  #   # 重启策略
   #   restart: unless-stopped
+  #   
+  #   # 端口映射
   #   ports:
+  #     # 将主机的8000端口映射到容器的8000端口
   #     - "8000:8000"
+  #   
+  #   # 卷挂载配置：开发环境代码热重载
   #   volumes:
+  #     # 绑定挂载，将本地backend目录挂载到容器的/app目录
   #     - ./backend:/app
+  #   
+  #   # 依赖关系：确保数据库和Redis健康后再启动后端
   #   depends_on:
   #     postgres:
+  #       # 等待PostgreSQL健康检查通过
   #       condition: service_healthy
   #     redis:
+  #       # 等待Redis健康检查通过
   #       condition: service_healthy
 
-  # (后续阶段添加) - 前端服务
+  # ==========================================================================
+  # 前端服务 (注释状态 - 后续阶段添加)
+  # React/Vue前端应用程序容器
+  # ==========================================================================
   # frontend:
+  #   # 构建配置
   #   build:
+  #     # Dockerfile所在上下文目录
   #     context: ./frontend
+  #     # 使用的Dockerfile文件名
   #     dockerfile: Dockerfile.dev
+  #   
+  #   # 容器名称
   #   container_name: fx-frontend-dev
+  #   
+  #   # 重启策略
   #   restart: unless-stopped
+  #   
+  #   # 端口映射
   #   ports:
+  #     # 将主机的5173端口映射到容器的5173端口（Vite默认端口）
   #     - "5173:5173"
+  #   
+  #   # 卷挂载配置
   #   volumes:
+  #     # 绑定挂载，将本地frontend目录挂载到容器的/app目录
   #     - ./frontend:/app
+  #     # 匿名卷，避免覆盖容器内的node_modules目录
   #     - /app/node_modules
 
+# ============================================================================
+# 卷定义部分
+# 定义Docker卷，用于数据持久化
+# ============================================================================
 volumes:
+  # PostgreSQL数据卷
   postgres_data:
+    # 无额外配置，使用默认设置
+    # Docker将自动管理此卷的存储位置
+  
+  # Redis数据卷
   redis_data:
+    # 无额外配置，使用默认设置
+  
+  # MinIO数据卷
   minio_data:
+    # 无额外配置，使用默认设置
 
+# ============================================================================
+# 网络定义部分
+# 定义Docker网络，用于容器间通信
+# ============================================================================
 networks:
+  # 默认网络配置
   default:
+    # 网络名称：为所有服务创建统一的网络
     name: fx-trading-network
+    # 使用bridge驱动（默认），容器间可通过服务名互相访问
+
+# ============================================================================
+# 使用说明：
+# 
+# 启动所有服务：
+# docker-compose up -d
+# 
+# 查看服务状态：
+# docker-compose ps
+# 
+# 查看服务日志：
+# docker-compose logs [服务名]
+# 
+# 停止所有服务：
+# docker-compose down
+# 
+# 停止服务并删除卷（警告：会删除所有数据）：
+# docker-compose down -v
+# 
+# 重新构建并启动：
+# docker-compose up -d --build
+# 
+# 进入容器shell：
+# docker-compose exec postgres bash
+# docker-compose exec redis redis-cli
+# 
+# ============================================================================

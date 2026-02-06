@@ -38,9 +38,6 @@ logs:
 ps:
 	docker-compose ps
 
-test:
-	@echo "测试尚未实现"
-
 # 数据清理（开发环境重置用）
 clean:
 	docker-compose down -v
@@ -80,3 +77,21 @@ dev-frontend:
 	else \
 		echo "错误：前端目录 './frontend' 不存在。请先完成第七阶段任务。"; \
 	fi
+
+# 测试服务连接
+test:
+	@echo "$(GREEN)测试服务连接...$(RESET)"
+	@echo "$(YELLOW)1. 测试PostgreSQL连接...$(RESET)"
+	@docker-compose exec postgres pg_isready -U fx_user -d fx_trading_dev && \
+		echo "$(GREEN)PostgreSQL连接正常$(RESET)" || \
+		echo "$(RED)PostgreSQL连接失败$(RESET)"
+	@echo ""
+	@echo "$(YELLOW)2. 测试Redis连接...$(RESET)"
+	@docker-compose exec redis redis-cli ping | grep -q PONG && \
+		echo "$(GREEN)Redis连接正常$(RESET)" || \
+		echo "$(RED)Redis连接失败$(RESET)"
+	@echo ""
+	@echo "$(YELLOW)3. 测试MinIO连接...$(RESET)"
+	@curl -s http://localhost:9000/minio/health/live > /dev/null && \
+		echo "$(GREEN)MinIO连接正常$(RESET)" || \
+		echo "$(RED)MinIO连接失败$(RESET)"
