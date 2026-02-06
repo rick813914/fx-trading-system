@@ -10,6 +10,7 @@ help:
 	@echo "make logs         - 查看所有服务的日志"
 	@echo "make ps           - 查看服务状态"
 	@echo "make clean        - 停止服务并清理所有数据卷 (谨慎使用！)"
+	@echo "make test         - 运行测试"
 	@echo ""
 	@echo "数据库工具："
 	@echo "make db-shell     - 进入PostgreSQL交互终端"
@@ -36,6 +37,9 @@ logs:
 
 ps:
 	docker-compose ps
+
+test:
+	@echo "测试尚未实现"
 
 # 数据清理（开发环境重置用）
 clean:
@@ -65,7 +69,7 @@ minio-console:
 # 本地开发快捷命令 (假设你已经在本机安装了Python和Node.js环境)
 dev-backend:
 	@if [ -d "./backend" ]; then \
-		cd backend && source venv/bin/activate && python manage.py runserver; \
+		cd backend && . venv/bin/activate && python manage.py runserver; \
 	else \
 		echo "错误：后端目录 './backend' 不存在。请先完成第二阶段任务。"; \
 	fi
