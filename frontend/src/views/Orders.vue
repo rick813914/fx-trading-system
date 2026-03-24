@@ -100,7 +100,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import axios from '@/utils/axios'
-import { ElMessage, ElMessageBox, FormInstance } from 'element-plus'
+import { ElMessage, ElMessageBox, type FormInstance } from 'element-plus'
 
 // 定义订单类型
 interface Order {

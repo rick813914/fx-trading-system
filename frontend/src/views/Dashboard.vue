@@ -61,12 +61,8 @@ async function fetchKPI() {
     // stats.value = response.data
 
     // 模拟数据（后续替换为真实API）
-    stats.value = {
-      total_orders: 123,
-      total_profit: 4567.89,
-      win_rate: 65.5,
-      avg_profit: 37.14,
-    }
+    const response = await axios.get('/api/kpi/')
+    stats.value = response.data
   } catch (error) {
     console.error('获取KPI失败', error)
   }

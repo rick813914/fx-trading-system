@@ -23,3 +23,18 @@ class OrderViewSet(viewsets.ModelViewSet):
         创建订单时自动关联当前用户。
         """
         serializer.save(user=self.request.user)
+
+# backend/orders/views.py 末尾添加
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .services.kpi import calculate_kpi
+
+class KPIView(APIView):
+    """
+    KPI 统计视图
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        kpi_data = calculate_kpi(request.user.id)
+        return Response(kpi_data)
