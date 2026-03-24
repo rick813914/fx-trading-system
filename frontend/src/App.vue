@@ -1,85 +1,52 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div id="app">
+    <el-container>
+      <el-header v-if="authStore.token">
+        <el-menu mode="horizontal" router>
+          <el-menu-item index="/">仪表盘</el-menu-item>
+          <el-menu-item index="/orders">订单管理</el-menu-item>
+          <el-menu-item index="/settings">系统设置</el-menu-item>
+          <el-menu-item style="float: right" @click="logout">退出登录</el-menu-item>
+        </el-menu>
+      </el-header>
+      <el-main>
+        <router-view />
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<script setup lang="ts">
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+
+const authStore = useAuthStore()
+const router = useRouter()
+
+function logout() {
+  authStore.logout()
+  ElMessage.success('已退出登录')
+  router.push('/login')
 }
+</script>
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+<style>
+body {
+  margin: 0;
 }
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+.el-header {
+  background-color: #409eff;
+  color: white;
+  line-height: 60px;
 }
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.el-menu {
+  background-color: #409eff;
 }
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.el-menu-item {
+  color: white;
 }
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.el-menu-item.is-active {
+  background-color: #66b1ff;
 }
 </style>
