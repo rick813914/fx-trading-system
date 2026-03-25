@@ -8,37 +8,37 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/Login.vue'),
+      component: () => import('@/views/auth/Login.vue'),      // 假设你已将 Login/Register 移到 auth/ 下
       meta: { requiresAuth: false }
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('@/views/Register.vue'),
+      component: () => import('@/views/auth/Register.vue'),
       meta: { requiresAuth: false }
     },
     {
       path: '/',
       name: 'dashboard',
-      component: () => import('@/views/Dashboard.vue'),
+      component: () => import('@/views/dashboard/Dashboard.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/orders',
       name: 'orders',
-      component: () => import('@/views/Orders.vue'),
+      component: () => import('@/views/orders/Orders.vue'),   // 关键修改
       meta: { requiresAuth: true }
     },
     {
       path: '/settings',
       name: 'settings',
-      component: () => import('@/views/Settings.vue'),
+      component: () => import('@/views/settings/Settings.vue'),
       meta: { requiresAuth: true }
     }
   ]
 })
 
-// 路由守卫
+// 路由守卫保持不变
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
   if (to.meta.requiresAuth && !authStore.token) {

@@ -28,8 +28,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',     # JWT 认证
 
     # 自定义应用（注意：必须先创建，再注册）
-    'users',                        # 用户管理
-    'orders',                       # 订单管理
+    'apps.users',                   # 用户管理
+    'apps.orders',                  # 订单管理
+    'apps.accounts',
 ]
 
 # ==================== 中间件 ====================
@@ -80,6 +81,15 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+# ==================== Celery 配置 ====================
+# Redis 作为消息代理和结果存储（确保 Redis 已安装并运行）
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Shanghai'   # 与 Django 时区保持一致
 
 # ==================== 密码验证 ====================
 AUTH_PASSWORD_VALIDATORS = [

@@ -37,7 +37,12 @@ class Order(models.Model):
 
     # 盈亏金额（以基础货币计）
     profit = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-
+    # 在 Order 类中添加字段
+    ticket = models.CharField(max_length=50, blank=True, null=True, verbose_name='订单号')
+    commission = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='佣金')
+    swap = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='隔夜利息')
+    comment = models.TextField(blank=True, null=True, verbose_name='备注')
+    extra_data = models.JSONField(default=dict, blank=True, verbose_name='扩展数据')
     # 自动记录创建时间和更新时间
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

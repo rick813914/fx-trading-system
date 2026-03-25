@@ -1,9 +1,12 @@
-<!-- src/views/Orders.vue -->
 <template>
   <div class="orders-container">
     <div class="header">
       <h2>订单管理</h2>
-      <el-button type="primary" @click="openCreateDialog">新建订单</el-button>
+      <div>
+        <el-button type="primary" @click="openCreateDialog">新建订单</el-button>
+        <el-button @click="showUploadDialog = true">导入 CSV</el-button>
+        <el-button @click="exportCSV">导出 CSV</el-button>
+      </div>
     </div>
 
     <!-- 筛选栏 -->
@@ -94,30 +97,37 @@
         <el-button type="primary" @click="submitForm">确定</el-button>
       </template>
     </el-dialog>
+
+    <!-- 导入对话框 -->
+    <el-dialog v-model="showUploadDialog" title="导入订单" width="40%">
+      <CSVUpload @refresh="fetchOrders" />
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import axios from '@/utils/axios'
-import { ElMessage, ElMessageBox, type FormInstance } from 'element-plus'
+import { ElMessage, type FormInstance } from 'element-plus'
+import { useOrders } from '@/composables/useOrders'
+import CSVUpload from '@/components/orders/CSVUpload.vue'
+import type { Order } from '@/types/orders'
 
-// 定义订单类型
-interface Order {
-  id?: number
-  symbol: string
-  volume: number
-  direction: 'BUY' | 'SELL'
-  open_price: number
-  close_price?: number | null
-  open_time: string
-  close_time?: string | null
-  profit: number
-}
+// 使用组合式函数
+const {
+  orders,
+  loading,
+  pagination,
+  filters,
+  fetchOrders,
+  resetFilters,
+  createOrder,
+  updateOrder,
+  deleteOrder,
+  importCSV,
+  exportCSV
+} = useOrders()
 
-// 状态
-const orders = ref<Order[]>([])
-const loading = ref(false)
+// 表单相关状态
 const dialogVisible = ref(false)
 const dialogTitle = ref('新建订单')
 const formRef = ref<FormInstance>()
@@ -131,15 +141,7 @@ const form = reactive<Order>({
   close_time: null,
   profit: 0
 })
-const pagination = reactive({
-  page: 1,
-  pageSize: 20,
-  total: 0
-})
-const filters = reactive({
-  symbol: '',
-  direction: ''
-})
+const showUploadDialog = ref(false)
 
 // 表单验证规则
 const rules = {
@@ -148,35 +150,6 @@ const rules = {
   direction: [{ required: true, message: '请选择方向', trigger: 'change' }],
   open_price: [{ required: true, message: '请输入开仓价', trigger: 'blur' }],
   open_time: [{ required: true, message: '请选择开仓时间', trigger: 'change' }],
-}
-
-// 获取订单列表
-async function fetchOrders() {
-  loading.value = true
-  try {
-    const params: any = {
-      page: pagination.page,
-      page_size: pagination.pageSize,
-    }
-    if (filters.symbol) params.symbol = filters.symbol
-    if (filters.direction) params.direction = filters.direction
-
-    const response = await axios.get('/api/orders/', { params })
-    orders.value = response.data.results
-    pagination.total = response.data.count
-  } catch (error) {
-    ElMessage.error('获取订单失败')
-  } finally {
-    loading.value = false
-  }
-}
-
-// 重置筛选
-function resetFilters() {
-  filters.symbol = ''
-  filters.direction = ''
-  pagination.page = 1
-  fetchOrders()
 }
 
 // 打开新建对话框
@@ -199,7 +172,6 @@ function openCreateDialog() {
 // 打开编辑对话框
 function openEditDialog(row: Order) {
   dialogTitle.value = '编辑订单'
-  // 复制数据，避免直接修改原数据
   Object.assign(form, {
     ...row,
     close_price: row.close_price ?? null,
@@ -208,44 +180,22 @@ function openEditDialog(row: Order) {
   dialogVisible.value = true
 }
 
-// 提交表单（新建或编辑）
+// 提交表单
 async function submitForm() {
   if (!formRef.value) return
   await formRef.value.validate(async (valid) => {
     if (!valid) return
     try {
       if (form.id) {
-        // 更新
-        await axios.put(`/api/orders/${form.id}/`, form)
-        ElMessage.success('更新成功')
+        await updateOrder(form.id, form)
       } else {
-        // 新建
-        await axios.post('/api/orders/', form)
-        ElMessage.success('创建成功')
+        await createOrder(form)
       }
       dialogVisible.value = false
-      fetchOrders() // 刷新列表
     } catch (error) {
-      ElMessage.error('操作失败')
+      // 错误已在组合式函数中处理
     }
   })
-}
-
-// 删除订单
-function deleteOrder(row: Order) {
-  ElMessageBox.confirm('确认删除该订单吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(async () => {
-    try {
-      await axios.delete(`/api/orders/${row.id}/`)
-      ElMessage.success('删除成功')
-      fetchOrders()
-    } catch (error) {
-      ElMessage.error('删除失败')
-    }
-  }).catch(() => {})
 }
 
 // 格式化方向显示
