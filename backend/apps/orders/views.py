@@ -8,12 +8,13 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from celery.result import AsyncResult
-from core.permissions import IsOwner
+
 from .models import Order
 from .serializers import OrderSerializer
 from .services.kpi import calculate_kpi
 from .tasks import import_orders_task
 from .services.order_service import OrderService
+from core.permissions import IsOwner
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -27,8 +28,21 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """
         只返回当前登录用户的订单，按开仓时间倒序。
+        支持按 symbol 和 direction 筛选。
         """
-        return Order.objects.filter(user=self.request.user).order_by('-open_time')
+        queryset = Order.objects.filter(user=self.request.user).order_by('-open_time')
+
+        # 筛选：货币对
+        symbol = self.request.query_params.get('symbol')
+        if symbol:
+            queryset = queryset.filter(symbol=symbol)
+
+        # 筛选：方向
+        direction = self.request.query_params.get('direction')
+        if direction:
+            queryset = queryset.filter(direction=direction)
+
+        return queryset
 
     def perform_create(self, serializer):
         """

@@ -1,0 +1,99 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - menubar [ref=e6]:
+    - menuitem "仪表盘" [ref=e7] [cursor=pointer]
+    - menuitem "订单管理" [active] [ref=e8] [cursor=pointer]
+    - menuitem "系统设置" [ref=e9] [cursor=pointer]
+    - menuitem "退出登录" [ref=e10] [cursor=pointer]
+  - main [ref=e11]:
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - heading "订单管理" [level=2] [ref=e14]
+        - generic [ref=e15]:
+          - button "新建订单" [ref=e16] [cursor=pointer]:
+            - generic [ref=e17]: 新建订单
+          - button "导入 CSV" [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: 导入 CSV
+          - button "导出 CSV" [ref=e20] [cursor=pointer]:
+            - generic [ref=e21]: 导出 CSV
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e24]: 货币对
+          - textbox "货币对" [ref=e28]:
+            - /placeholder: 请输入
+        - generic [ref=e29]:
+          - generic [ref=e30]: 方向
+          - generic [ref=e33] [cursor=pointer]:
+            - generic:
+              - combobox "方向" [ref=e35]
+              - generic: 请选择
+            - img [ref=e38]
+        - generic [ref=e41]:
+          - button "搜索" [ref=e42] [cursor=pointer]:
+            - generic [ref=e43]: 搜索
+          - button "重置" [ref=e44] [cursor=pointer]:
+            - generic [ref=e45]: 重置
+      - generic [ref=e47]:
+        - table [ref=e49]:
+          - rowgroup [ref=e59]:
+            - row "货币对 手数 方向 开仓价 平仓价 开仓时间 盈亏 操作" [ref=e60]:
+              - columnheader "货币对" [ref=e61]:
+                - generic [ref=e62]: 货币对
+              - columnheader "手数" [ref=e63]:
+                - generic [ref=e64]: 手数
+              - columnheader "方向" [ref=e65]:
+                - generic [ref=e66]: 方向
+              - columnheader "开仓价" [ref=e67]:
+                - generic [ref=e68]: 开仓价
+              - columnheader "平仓价" [ref=e69]:
+                - generic [ref=e70]: 平仓价
+              - columnheader "开仓时间" [ref=e71]:
+                - generic [ref=e72]: 开仓时间
+              - columnheader "盈亏" [ref=e73]:
+                - generic [ref=e74]: 盈亏
+              - columnheader "操作" [ref=e75]:
+                - generic [ref=e76]: 操作
+        - table [ref=e81]:
+          - rowgroup [ref=e91]:
+            - row "EURUSD 1.00 买入 1.10000 1.10500 2026-03-24T00:00:00+08:00 50.00 编辑 删除" [ref=e92]:
+              - cell "EURUSD" [ref=e93]:
+                - generic [ref=e94]: EURUSD
+              - cell "1.00" [ref=e95]:
+                - generic [ref=e96]: "1.00"
+              - cell "买入" [ref=e97]:
+                - generic [ref=e98]: 买入
+              - cell "1.10000" [ref=e99]:
+                - generic [ref=e100]: "1.10000"
+              - cell "1.10500" [ref=e101]:
+                - generic [ref=e102]: "1.10500"
+              - cell "2026-03-24T00:00:00+08:00" [ref=e103]:
+                - generic [ref=e104]: 2026-03-24T00:00:00+08:00
+              - cell "50.00" [ref=e105]:
+                - generic [ref=e106]: "50.00"
+              - cell "编辑 删除" [ref=e107]:
+                - generic [ref=e108]:
+                  - button "编辑" [ref=e109] [cursor=pointer]:
+                    - generic [ref=e110]: 编辑
+                  - button "删除" [ref=e111] [cursor=pointer]:
+                    - generic [ref=e112]: 删除
+      - generic [ref=e114]:
+        - generic [ref=e115]: Total 1
+        - generic [ref=e118] [cursor=pointer]:
+          - generic:
+            - combobox [ref=e120]
+            - generic [ref=e121]: 20/page
+          - img [ref=e124]
+        - button "Go to previous page" [disabled] [ref=e126]:
+          - generic:
+            - img
+        - list [ref=e127]:
+          - listitem "page 1" [ref=e128]: "1"
+        - button "Go to next page" [disabled] [ref=e129]:
+          - generic:
+            - img
+        - generic [ref=e130]:
+          - generic [ref=e131]: Go to
+          - spinbutton "Page" [ref=e134]: "1"
+```

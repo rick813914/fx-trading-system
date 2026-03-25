@@ -1,0 +1,3 @@
+Ticket,Open Time,Type,Size,Symbol,Open Price,Close Price,Profit,Commission,Swap,Comment,Close Time
+123,2024.01.01 10:00:00,0,0.01,EURUSD,1.10000,1.10500,5.00,0.00,0.00,test,2024.01.01 12:00:00
+124,2024.01.02 14:30:00,1,0.02,GBPUSD,1.25000,1.24500,-10.00,0.00,0.00,example,2024.01.02 16:00:00

@@ -3,6 +3,7 @@
 测试订单 CRUD、KPI 接口以及权限控制
 """
 import pytest
+from decimal import Decimal
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 from apps.orders.models import Order
@@ -20,12 +21,13 @@ def user(db):
 
 @pytest.fixture
 def auth_client(user):
-    """已认证的 API 客户端"""
+    """已认证的 API 客户端（使用正确的登录端点）"""
     client = APIClient()
-    response = client.post('/api/token/', {
-        'username': 'testuser',
+    response = client.post('/api/users/login/', {
+        'username': user.username,
         'password': 'testpass123'
     })
+    assert response.status_code == 200, f"登录失败: {response.content}"
     token = response.data['access']
     client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
     return client
@@ -58,7 +60,6 @@ class TestOrderAPI:
 
     def test_list_orders(self, auth_client, order_data):
         """测试获取订单列表"""
-        # 创建两条订单
         auth_client.post('/api/orders/', order_data)
         auth_client.post('/api/orders/', {**order_data, 'symbol': 'GBPUSD'})
         response = auth_client.get('/api/orders/')
@@ -75,7 +76,7 @@ class TestOrderAPI:
         assert response.status_code == 200
         order = Order.objects.get(id=order_id)
         assert order.profit == 100.00
-        assert order.close_price == 1.10500
+        assert order.close_price == Decimal('1.10500')
 
     def test_delete_order(self, auth_client, order_data):
         """测试删除订单"""
@@ -87,7 +88,6 @@ class TestOrderAPI:
 
     def test_filter_orders(self, auth_client, order_data):
         """测试筛选功能"""
-        # 创建 EURUSD 和 GBPUSD 订单
         auth_client.post('/api/orders/', order_data)
         auth_client.post('/api/orders/', {**order_data, 'symbol': 'GBPUSD'})
         response = auth_client.get('/api/orders/?symbol=EURUSD')
@@ -110,8 +110,9 @@ class TestOrderAPI:
         # 创建另一个用户
         other_user = User.objects.create_user(username='other', password='pass')
         other_client = APIClient()
-        resp = other_client.post('/api/token/', {'username': 'other', 'password': 'pass'})
-        other_client.credentials(HTTP_AUTHORIZATION=f'Bearer {resp.data["access"]}')
+        resp = other_client.post('/api/users/login/', {'username': 'other', 'password': 'pass'})
+        token = resp.data['access']
+        other_client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
 
         # 用第一个用户创建订单
         auth_client.post('/api/orders/', order_data)
