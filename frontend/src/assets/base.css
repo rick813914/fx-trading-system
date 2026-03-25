@@ -84,3 +84,18 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+/* 移动端基础样式 */
+@media (max-width: 768px) {
+  .el-dialog {
+    width: 95% !important;
+    margin: 0 auto !important;
+  }
+  .el-form--inline .el-form-item {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  .el-table {
+    overflow-x: auto;
+  }
+}

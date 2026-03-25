@@ -50,9 +50,10 @@ export function useOrders() {
     try {
       await api.createOrder(data)
       ElMessage.success('创建成功')
-      await fetchOrders()
-    } catch (error) {
-      ElMessage.error('创建失败')
+     await fetchOrders()
+    } catch (error: any) {
+      const msg = error.response?.data?.detail || error.response?.data?.message || '创建失败，请重试'
+      ElMessage.error(msg)
       throw error
     }
   }

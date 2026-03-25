@@ -146,9 +146,15 @@ const showUploadDialog = ref(false)
 // 表单验证规则
 const rules = {
   symbol: [{ required: true, message: '请输入货币对', trigger: 'blur' }],
-  volume: [{ required: true, message: '请输入手数', trigger: 'blur' }],
+  volume: [
+    { required: true, message: '请输入手数', trigger: 'blur' },
+    { type: 'number', min: 0.01, message: '手数必须大于0', trigger: 'blur' }
+  ],
   direction: [{ required: true, message: '请选择方向', trigger: 'change' }],
-  open_price: [{ required: true, message: '请输入开仓价', trigger: 'blur' }],
+  open_price: [
+    { required: true, message: '请输入开仓价', trigger: 'blur' },
+    { type: 'number', min: 0, message: '开仓价必须为正数', trigger: 'blur' }
+  ],
   open_time: [{ required: true, message: '请选择开仓时间', trigger: 'change' }],
 }
 
@@ -218,8 +224,29 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 .filter-form {
   margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+/* 手机屏幕下表格横向滚动 */
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 10px;
+  }
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filter-form :deep(.el-form-item) {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .el-table {
+    overflow-x: auto;
+    display: block;
+  }
 }
 </style>
