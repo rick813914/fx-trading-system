@@ -7,6 +7,7 @@
       :http-request="handleUpload"
       :before-upload="beforeUpload"
       :show-file-list="false"
+      data-testid="csv-upload-area"
     >
       <el-icon class="el-icon--upload"><UploadFilled /></el-icon>
       <div class="el-upload__text">
@@ -22,7 +23,7 @@
     <el-dialog v-model="dialogVisible" title="导入进度" width="30%">
       <div v-if="taskState === 'PENDING' || taskState === 'PROGRESS'">
         <el-progress :percentage="50" indeterminate />
-        <p>正在处理，请稍后...</p>
+        <p data-testid="import-progress-text">正在处理，请稍后...</p>
       </div>
       <div v-else-if="taskState === 'SUCCESS'">
         <el-alert
@@ -30,6 +31,7 @@
           type="success"
           :description="`成功导入 ${importResult.created} 条订单，失败 ${importResult.errors.length} 条`"
           show-icon
+          data-testid="import-success-alert"
         />
         <div v-if="importResult.errors.length" style="margin-top: 10px">
           <el-collapse>
@@ -46,7 +48,7 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">关闭</el-button>
+          <el-button @click="dialogVisible = false" data-testid="close-import-dialog">关闭</el-button>
         </span>
       </template>
     </el-dialog>

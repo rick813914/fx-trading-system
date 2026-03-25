@@ -15,6 +15,9 @@ def import_orders_task(self, user_id: int, file_content: bytes, filename: str, b
     """
     异步导入订单任务
     """
+    print(f"=== 任务开始，user_id={user_id}, filename={filename}, content length={len(file_content)}")
+    print(f"content preview (bytes): {file_content[:200]}")
+
     try:
         user = User.objects.get(id=user_id)
     except User.DoesNotExist:

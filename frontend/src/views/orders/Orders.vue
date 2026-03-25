@@ -3,9 +3,9 @@
     <div class="header">
       <h2>订单管理</h2>
       <div>
-        <el-button type="primary" @click="openCreateDialog">新建订单</el-button>
-        <el-button @click="showUploadDialog = true">导入 CSV</el-button>
-        <el-button @click="exportCSV">导出 CSV</el-button>
+        <el-button type="primary" @click="openCreateDialog" data-testid="new-order-button">新建订单</el-button>
+        <el-button @click="showUploadDialog = true" data-testid="import-csv-button">导入 CSV</el-button>
+        <el-button @click="exportCSV" data-testid="export-csv-button">导出 CSV</el-button>
       </div>
     </div>
 
@@ -43,8 +43,8 @@
       </el-table-column>
       <el-table-column label="操作" width="150">
         <template #default="{ row }">
-          <el-button type="primary" size="small" @click="openEditDialog(row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="deleteOrder(row)">删除</el-button>
+          <el-button type="primary" size="small" @click="openEditDialog(row)" data-testid="edit-order-button">编辑</el-button>
+          <el-button type="danger" size="small" @click="deleteOrder(row)" data-testid="delete-order-button">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,25 +65,25 @@
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="500px">
       <el-form :model="form" :rules="rules" ref="formRef" label-width="100px">
         <el-form-item label="货币对" prop="symbol">
-          <el-input v-model="form.symbol" />
+          <el-input v-model="form.symbol" data-testid="symbol-input" />
         </el-form-item>
         <el-form-item label="手数" prop="volume">
-          <el-input-number v-model="form.volume" :precision="2" :step="0.01" />
+          <el-input-number v-model="form.volume" :precision="2" :step="0.01" data-testid="volume-input" />
         </el-form-item>
         <el-form-item label="方向" prop="direction">
-          <el-radio-group v-model="form.direction">
+          <el-radio-group v-model="form.direction" data-testid="direction-radio">
             <el-radio label="BUY">买入</el-radio>
             <el-radio label="SELL">卖出</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="开仓价" prop="open_price">
-          <el-input-number v-model="form.open_price" :precision="5" :step="0.00001" />
+          <el-input-number v-model="form.open_price" :precision="5" :step="0.00001" data-testid="openPrice-input" />
         </el-form-item>
         <el-form-item label="平仓价" prop="close_price">
           <el-input-number v-model="form.close_price" :precision="5" :step="0.00001" />
         </el-form-item>
         <el-form-item label="开仓时间" prop="open_time">
-          <el-date-picker v-model="form.open_time" type="datetime" placeholder="选择日期时间" />
+          <el-date-picker v-model="form.open_time" type="datetime" placeholder="选择日期时间" data-testid="openTime-input" />
         </el-form-item>
         <el-form-item label="平仓时间" prop="close_time">
           <el-date-picker v-model="form.close_time" type="datetime" placeholder="选择日期时间" />
@@ -93,8 +93,8 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitForm">确定</el-button>
+        <el-button @click="dialogVisible = false" data-testid="cancel-order-button">取消</el-button>
+        <el-button type="primary" @click="submitForm" data-testid="submit-order-button">确定</el-button>
       </template>
     </el-dialog>
 
@@ -107,7 +107,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { ElMessage, type FormInstance } from 'element-plus'
+import { ElMessage, ElMessageBox, type FormInstance } from 'element-plus'
 import { useOrders } from '@/composables/useOrders'
 import CSVUpload from '@/components/orders/CSVUpload.vue'
 import type { Order } from '@/types/orders'
@@ -122,7 +122,7 @@ const {
   resetFilters,
   createOrder,
   updateOrder,
-  deleteOrder,
+  deleteOrder: deleteOrderApi,
   importCSV,
   exportCSV
 } = useOrders()
@@ -202,6 +202,22 @@ async function submitForm() {
       // 错误已在组合式函数中处理
     }
   })
+}
+
+// 删除订单（带确认）
+async function deleteOrder(row: Order) {
+  try {
+    await ElMessageBox.confirm('确定删除该订单吗？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+    await deleteOrderApi(row.id)
+    ElMessage.success('删除成功')
+    fetchOrders()
+  } catch {
+    // 取消删除
+  }
 }
 
 // 格式化方向显示

@@ -1,19 +1,410 @@
 # Page snapshot
 
 ```yaml
-- main [ref=e5]:
-  - generic [ref=e8]:
-    - heading "登录" [level=2] [ref=e9]
-    - generic [ref=e10]:
-      - generic [ref=e11]:
-        - generic [ref=e12]: 用户名
-        - textbox "用户名" [ref=e16]
-      - generic [ref=e17]:
-        - generic [ref=e18]: 密码
-        - textbox "密码" [ref=e22]
-      - generic [ref=e24]:
-        - button "登录" [ref=e25] [cursor=pointer]:
-          - generic [ref=e26]: 登录
-        - button "注册" [ref=e27] [cursor=pointer]:
-          - generic [ref=e28]: 注册
+- generic [ref=e4]:
+  - menubar [ref=e6]:
+    - menuitem "仪表盘" [ref=e7] [cursor=pointer]
+    - menuitem "订单管理" [ref=e8] [cursor=pointer]
+    - menuitem "系统设置" [ref=e9] [cursor=pointer]
+    - menuitem "退出登录" [ref=e10] [cursor=pointer]
+  - main [ref=e11]:
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - heading "订单管理" [level=2] [ref=e14]
+        - generic [ref=e15]:
+          - button "新建订单" [ref=e16] [cursor=pointer]:
+            - generic [ref=e17]: 新建订单
+          - button "导入 CSV" [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: 导入 CSV
+          - button "导出 CSV" [ref=e20] [cursor=pointer]:
+            - generic [ref=e21]: 导出 CSV
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e24]: 货币对
+          - textbox "货币对" [ref=e28]:
+            - /placeholder: 请输入
+        - generic [ref=e29]:
+          - generic [ref=e30]: 方向
+          - generic [ref=e33] [cursor=pointer]:
+            - generic:
+              - combobox "方向" [ref=e35]
+              - generic: 请选择
+            - img [ref=e38]
+        - generic [ref=e41]:
+          - button "搜索" [ref=e42] [cursor=pointer]:
+            - generic [ref=e43]: 搜索
+          - button "重置" [ref=e44] [cursor=pointer]:
+            - generic [ref=e45]: 重置
+      - generic [ref=e47]:
+        - table [ref=e49]:
+          - rowgroup [ref=e59]:
+            - row "货币对 手数 方向 开仓价 平仓价 开仓时间 盈亏 操作" [ref=e60]:
+              - columnheader "货币对" [ref=e61]:
+                - generic [ref=e62]: 货币对
+              - columnheader "手数" [ref=e63]:
+                - generic [ref=e64]: 手数
+              - columnheader "方向" [ref=e65]:
+                - generic [ref=e66]: 方向
+              - columnheader "开仓价" [ref=e67]:
+                - generic [ref=e68]: 开仓价
+              - columnheader "平仓价" [ref=e69]:
+                - generic [ref=e70]: 平仓价
+              - columnheader "开仓时间" [ref=e71]:
+                - generic [ref=e72]: 开仓时间
+              - columnheader "盈亏" [ref=e73]:
+                - generic [ref=e74]: 盈亏
+              - columnheader "操作" [ref=e75]:
+                - generic [ref=e76]: 操作
+        - table [ref=e81]:
+          - rowgroup [ref=e91]:
+            - row "EURUSD 1.00 买入 1.10500 2025-01-01T10:00:00+08:00 50.00 编辑 删除" [ref=e92]:
+              - cell "EURUSD" [ref=e93]:
+                - generic [ref=e94]: EURUSD
+              - cell "1.00" [ref=e95]:
+                - generic [ref=e96]: "1.00"
+              - cell "买入" [ref=e97]:
+                - generic [ref=e98]: 买入
+              - cell "1.10500" [ref=e99]:
+                - generic [ref=e100]: "1.10500"
+              - cell [ref=e101]
+              - cell "2025-01-01T10:00:00+08:00" [ref=e102]:
+                - generic [ref=e103]: 2025-01-01T10:00:00+08:00
+              - cell "50.00" [ref=e104]:
+                - generic [ref=e105]: "50.00"
+              - cell "编辑 删除" [ref=e106]:
+                - generic [ref=e107]:
+                  - button "编辑" [ref=e108] [cursor=pointer]:
+                    - generic [ref=e109]: 编辑
+                  - button "删除" [ref=e110] [cursor=pointer]:
+                    - generic [ref=e111]: 删除
+            - row "EURUSD 1.00 买入 1.10500 2025-01-01T10:00:00+08:00 50.00 编辑 删除" [ref=e112]:
+              - cell "EURUSD" [ref=e113]:
+                - generic [ref=e114]: EURUSD
+              - cell "1.00" [ref=e115]:
+                - generic [ref=e116]: "1.00"
+              - cell "买入" [ref=e117]:
+                - generic [ref=e118]: 买入
+              - cell "1.10500" [ref=e119]:
+                - generic [ref=e120]: "1.10500"
+              - cell [ref=e121]
+              - cell "2025-01-01T10:00:00+08:00" [ref=e122]:
+                - generic [ref=e123]: 2025-01-01T10:00:00+08:00
+              - cell "50.00" [ref=e124]:
+                - generic [ref=e125]: "50.00"
+              - cell "编辑 删除" [ref=e126]:
+                - generic [ref=e127]:
+                  - button "编辑" [ref=e128] [cursor=pointer]:
+                    - generic [ref=e129]: 编辑
+                  - button "删除" [ref=e130] [cursor=pointer]:
+                    - generic [ref=e131]: 删除
+            - row "EURUSD 1.00 买入 1.10500 2025-01-01T10:00:00+08:00 50.00 编辑 删除" [ref=e132]:
+              - cell "EURUSD" [ref=e133]:
+                - generic [ref=e134]: EURUSD
+              - cell "1.00" [ref=e135]:
+                - generic [ref=e136]: "1.00"
+              - cell "买入" [ref=e137]:
+                - generic [ref=e138]: 买入
+              - cell "1.10500" [ref=e139]:
+                - generic [ref=e140]: "1.10500"
+              - cell [ref=e141]
+              - cell "2025-01-01T10:00:00+08:00" [ref=e142]:
+                - generic [ref=e143]: 2025-01-01T10:00:00+08:00
+              - cell "50.00" [ref=e144]:
+                - generic [ref=e145]: "50.00"
+              - cell "编辑 删除" [ref=e146]:
+                - generic [ref=e147]:
+                  - button "编辑" [ref=e148] [cursor=pointer]:
+                    - generic [ref=e149]: 编辑
+                  - button "删除" [ref=e150] [cursor=pointer]:
+                    - generic [ref=e151]: 删除
+            - row "EURUSD 1.00 买入 1.10500 2025-01-01T10:00:00+08:00 50.00 编辑 删除" [ref=e152]:
+              - cell "EURUSD" [ref=e153]:
+                - generic [ref=e154]: EURUSD
+              - cell "1.00" [ref=e155]:
+                - generic [ref=e156]: "1.00"
+              - cell "买入" [ref=e157]:
+                - generic [ref=e158]: 买入
+              - cell "1.10500" [ref=e159]:
+                - generic [ref=e160]: "1.10500"
+              - cell [ref=e161]
+              - cell "2025-01-01T10:00:00+08:00" [ref=e162]:
+                - generic [ref=e163]: 2025-01-01T10:00:00+08:00
+              - cell "50.00" [ref=e164]:
+                - generic [ref=e165]: "50.00"
+              - cell "编辑 删除" [ref=e166]:
+                - generic [ref=e167]:
+                  - button "编辑" [ref=e168] [cursor=pointer]:
+                    - generic [ref=e169]: 编辑
+                  - button "删除" [ref=e170] [cursor=pointer]:
+                    - generic [ref=e171]: 删除
+            - row "EURUSD 1.00 买入 1.10500 2025-01-01T10:00:00+08:00 50.00 编辑 删除" [ref=e172]:
+              - cell "EURUSD" [ref=e173]:
+                - generic [ref=e174]: EURUSD
+              - cell "1.00" [ref=e175]:
+                - generic [ref=e176]: "1.00"
+              - cell "买入" [ref=e177]:
+                - generic [ref=e178]: 买入
+              - cell "1.10500" [ref=e179]:
+                - generic [ref=e180]: "1.10500"
+              - cell [ref=e181]
+              - cell "2025-01-01T10:00:00+08:00" [ref=e182]:
+                - generic [ref=e183]: 2025-01-01T10:00:00+08:00
+              - cell "50.00" [ref=e184]:
+                - generic [ref=e185]: "50.00"
+              - cell "编辑 删除" [ref=e186]:
+                - generic [ref=e187]:
+                  - button "编辑" [ref=e188] [cursor=pointer]:
+                    - generic [ref=e189]: 编辑
+                  - button "删除" [ref=e190] [cursor=pointer]:
+                    - generic [ref=e191]: 删除
+            - row "EURUSD 1.00 买入 1.10500 2025-01-01T10:00:00+08:00 50.00 编辑 删除" [ref=e192]:
+              - cell "EURUSD" [ref=e193]:
+                - generic [ref=e194]: EURUSD
+              - cell "1.00" [ref=e195]:
+                - generic [ref=e196]: "1.00"
+              - cell "买入" [ref=e197]:
+                - generic [ref=e198]: 买入
+              - cell "1.10500" [ref=e199]:
+                - generic [ref=e200]: "1.10500"
+              - cell [ref=e201]
+              - cell "2025-01-01T10:00:00+08:00" [ref=e202]:
+                - generic [ref=e203]: 2025-01-01T10:00:00+08:00
+              - cell "50.00" [ref=e204]:
+                - generic [ref=e205]: "50.00"
+              - cell "编辑 删除" [ref=e206]:
+                - generic [ref=e207]:
+                  - button "编辑" [ref=e208] [cursor=pointer]:
+                    - generic [ref=e209]: 编辑
+                  - button "删除" [ref=e210] [cursor=pointer]:
+                    - generic [ref=e211]: 删除
+            - row "EURUSD 1.00 买入 1.10500 2025-01-01T10:00:00+08:00 50.00 编辑 删除" [ref=e212]:
+              - cell "EURUSD" [ref=e213]:
+                - generic [ref=e214]: EURUSD
+              - cell "1.00" [ref=e215]:
+                - generic [ref=e216]: "1.00"
+              - cell "买入" [ref=e217]:
+                - generic [ref=e218]: 买入
+              - cell "1.10500" [ref=e219]:
+                - generic [ref=e220]: "1.10500"
+              - cell [ref=e221]
+              - cell "2025-01-01T10:00:00+08:00" [ref=e222]:
+                - generic [ref=e223]: 2025-01-01T10:00:00+08:00
+              - cell "50.00" [ref=e224]:
+                - generic [ref=e225]: "50.00"
+              - cell "编辑 删除" [ref=e226]:
+                - generic [ref=e227]:
+                  - button "编辑" [ref=e228] [cursor=pointer]:
+                    - generic [ref=e229]: 编辑
+                  - button "删除" [ref=e230] [cursor=pointer]:
+                    - generic [ref=e231]: 删除
+            - row "EURUSD 0.01 买入 1.10000 1.10500 2024-01-01T10:00:00+08:00 5.00 编辑 删除" [ref=e232]:
+              - cell "EURUSD" [ref=e233]:
+                - generic [ref=e234]: EURUSD
+              - cell "0.01" [ref=e235]:
+                - generic [ref=e236]: "0.01"
+              - cell "买入" [ref=e237]:
+                - generic [ref=e238]: 买入
+              - cell "1.10000" [ref=e239]:
+                - generic [ref=e240]: "1.10000"
+              - cell "1.10500" [ref=e241]:
+                - generic [ref=e242]: "1.10500"
+              - cell "2024-01-01T10:00:00+08:00" [ref=e243]:
+                - generic [ref=e244]: 2024-01-01T10:00:00+08:00
+              - cell "5.00" [ref=e245]:
+                - generic [ref=e246]: "5.00"
+              - cell "编辑 删除" [ref=e247]:
+                - generic [ref=e248]:
+                  - button "编辑" [ref=e249] [cursor=pointer]:
+                    - generic [ref=e250]: 编辑
+                  - button "删除" [ref=e251] [cursor=pointer]:
+                    - generic [ref=e252]: 删除
+            - row "EURUSD 0.01 买入 1.10000 1.10500 2024-01-01T10:00:00+08:00 5.00 编辑 删除" [ref=e253]:
+              - cell "EURUSD" [ref=e254]:
+                - generic [ref=e255]: EURUSD
+              - cell "0.01" [ref=e256]:
+                - generic [ref=e257]: "0.01"
+              - cell "买入" [ref=e258]:
+                - generic [ref=e259]: 买入
+              - cell "1.10000" [ref=e260]:
+                - generic [ref=e261]: "1.10000"
+              - cell "1.10500" [ref=e262]:
+                - generic [ref=e263]: "1.10500"
+              - cell "2024-01-01T10:00:00+08:00" [ref=e264]:
+                - generic [ref=e265]: 2024-01-01T10:00:00+08:00
+              - cell "5.00" [ref=e266]:
+                - generic [ref=e267]: "5.00"
+              - cell "编辑 删除" [ref=e268]:
+                - generic [ref=e269]:
+                  - button "编辑" [ref=e270] [cursor=pointer]:
+                    - generic [ref=e271]: 编辑
+                  - button "删除" [ref=e272] [cursor=pointer]:
+                    - generic [ref=e273]: 删除
+            - row "EURUSD 0.01 买入 1.10000 1.10500 2024-01-01T10:00:00+08:00 5.00 编辑 删除" [ref=e274]:
+              - cell "EURUSD" [ref=e275]:
+                - generic [ref=e276]: EURUSD
+              - cell "0.01" [ref=e277]:
+                - generic [ref=e278]: "0.01"
+              - cell "买入" [ref=e279]:
+                - generic [ref=e280]: 买入
+              - cell "1.10000" [ref=e281]:
+                - generic [ref=e282]: "1.10000"
+              - cell "1.10500" [ref=e283]:
+                - generic [ref=e284]: "1.10500"
+              - cell "2024-01-01T10:00:00+08:00" [ref=e285]:
+                - generic [ref=e286]: 2024-01-01T10:00:00+08:00
+              - cell "5.00" [ref=e287]:
+                - generic [ref=e288]: "5.00"
+              - cell "编辑 删除" [ref=e289]:
+                - generic [ref=e290]:
+                  - button "编辑" [ref=e291] [cursor=pointer]:
+                    - generic [ref=e292]: 编辑
+                  - button "删除" [ref=e293] [cursor=pointer]:
+                    - generic [ref=e294]: 删除
+            - row "EURUSD 0.01 买入 1.10000 1.10500 2024-01-01T10:00:00+08:00 5.00 编辑 删除" [ref=e295]:
+              - cell "EURUSD" [ref=e296]:
+                - generic [ref=e297]: EURUSD
+              - cell "0.01" [ref=e298]:
+                - generic [ref=e299]: "0.01"
+              - cell "买入" [ref=e300]:
+                - generic [ref=e301]: 买入
+              - cell "1.10000" [ref=e302]:
+                - generic [ref=e303]: "1.10000"
+              - cell "1.10500" [ref=e304]:
+                - generic [ref=e305]: "1.10500"
+              - cell "2024-01-01T10:00:00+08:00" [ref=e306]:
+                - generic [ref=e307]: 2024-01-01T10:00:00+08:00
+              - cell "5.00" [ref=e308]:
+                - generic [ref=e309]: "5.00"
+              - cell "编辑 删除" [ref=e310]:
+                - generic [ref=e311]:
+                  - button "编辑" [ref=e312] [cursor=pointer]:
+                    - generic [ref=e313]: 编辑
+                  - button "删除" [ref=e314] [cursor=pointer]:
+                    - generic [ref=e315]: 删除
+            - row "EURUSD 0.01 买入 1.10000 1.10500 2024-01-01T10:00:00+08:00 5.00 编辑 删除" [ref=e316]:
+              - cell "EURUSD" [ref=e317]:
+                - generic [ref=e318]: EURUSD
+              - cell "0.01" [ref=e319]:
+                - generic [ref=e320]: "0.01"
+              - cell "买入" [ref=e321]:
+                - generic [ref=e322]: 买入
+              - cell "1.10000" [ref=e323]:
+                - generic [ref=e324]: "1.10000"
+              - cell "1.10500" [ref=e325]:
+                - generic [ref=e326]: "1.10500"
+              - cell "2024-01-01T10:00:00+08:00" [ref=e327]:
+                - generic [ref=e328]: 2024-01-01T10:00:00+08:00
+              - cell "5.00" [ref=e329]:
+                - generic [ref=e330]: "5.00"
+              - cell "编辑 删除" [ref=e331]:
+                - generic [ref=e332]:
+                  - button "编辑" [ref=e333] [cursor=pointer]:
+                    - generic [ref=e334]: 编辑
+                  - button "删除" [ref=e335] [cursor=pointer]:
+                    - generic [ref=e336]: 删除
+            - row "EURUSD 0.01 买入 1.10000 1.10500 2024-01-01T10:00:00+08:00 5.00 编辑 删除" [ref=e337]:
+              - cell "EURUSD" [ref=e338]:
+                - generic [ref=e339]: EURUSD
+              - cell "0.01" [ref=e340]:
+                - generic [ref=e341]: "0.01"
+              - cell "买入" [ref=e342]:
+                - generic [ref=e343]: 买入
+              - cell "1.10000" [ref=e344]:
+                - generic [ref=e345]: "1.10000"
+              - cell "1.10500" [ref=e346]:
+                - generic [ref=e347]: "1.10500"
+              - cell "2024-01-01T10:00:00+08:00" [ref=e348]:
+                - generic [ref=e349]: 2024-01-01T10:00:00+08:00
+              - cell "5.00" [ref=e350]:
+                - generic [ref=e351]: "5.00"
+              - cell "编辑 删除" [ref=e352]:
+                - generic [ref=e353]:
+                  - button "编辑" [ref=e354] [cursor=pointer]:
+                    - generic [ref=e355]: 编辑
+                  - button "删除" [ref=e356] [cursor=pointer]:
+                    - generic [ref=e357]: 删除
+      - generic [ref=e359]:
+        - generic [ref=e360]: Total 13
+        - generic [ref=e363] [cursor=pointer]:
+          - generic:
+            - combobox [ref=e365]
+            - generic [ref=e366]: 20/page
+          - img [ref=e369]
+        - button "Go to previous page" [disabled] [ref=e371]:
+          - generic:
+            - img
+        - list [ref=e372]:
+          - listitem "page 1" [ref=e373]: "1"
+        - button "Go to next page" [disabled] [ref=e374]:
+          - generic:
+            - img
+        - generic [ref=e375]:
+          - generic [ref=e376]: Go to
+          - spinbutton "Page" [ref=e379]: "1"
+      - dialog "新建订单" [ref=e381]:
+        - generic [ref=e382]:
+          - generic [ref=e383]:
+            - heading "新建订单" [level=2] [ref=e384]
+            - button "Close this dialog" [ref=e385] [cursor=pointer]:
+              - img [ref=e387]
+          - generic [ref=e390]:
+            - generic [ref=e391]:
+              - generic [ref=e392]: "* 货币对"
+              - textbox "* 货币对" [ref=e396]: EURUSD
+            - generic [ref=e397]:
+              - generic [ref=e398]: "* 手数"
+              - generic [ref=e400]:
+                - button "decrease number" [ref=e401] [cursor=pointer]:
+                  - img [ref=e403]
+                - button "increase number" [ref=e405] [cursor=pointer]:
+                  - img [ref=e407]
+                - spinbutton "* 手数" [ref=e411]: "1.00"
+            - generic [ref=e412]:
+              - generic [ref=e413]: "* 方向"
+              - radiogroup "* 方向" [ref=e415]:
+                - generic [ref=e416] [cursor=pointer]:
+                  - radio "买入" [checked] [ref=e418]
+                  - generic [ref=e420]: 买入
+                - generic [ref=e421] [cursor=pointer]:
+                  - radio "卖出" [ref=e423]
+                  - generic [ref=e425]: 卖出
+            - generic [ref=e426]:
+              - generic [ref=e427]: "* 开仓价"
+              - generic [ref=e429]:
+                - button "decrease number" [ref=e430] [cursor=pointer]:
+                  - img [ref=e432]
+                - button "increase number" [ref=e434] [cursor=pointer]:
+                  - img [ref=e436]
+                - spinbutton "* 开仓价" [active] [ref=e440]: "1.1000"
+            - generic [ref=e441]:
+              - generic [ref=e442]: 平仓价
+              - generic [ref=e444]:
+                - button "decrease number" [ref=e445] [cursor=pointer]:
+                  - img [ref=e447]
+                - button "increase number" [ref=e449] [cursor=pointer]:
+                  - img [ref=e451]
+                - spinbutton "平仓价" [ref=e455]
+            - generic [ref=e456]:
+              - generic [ref=e457]: "* 开仓时间"
+              - generic [ref=e460]:
+                - img [ref=e463]
+                - combobox "* 开仓时间" [ref=e467]
+            - generic [ref=e468]:
+              - generic [ref=e469]: 平仓时间
+              - generic [ref=e472]:
+                - img [ref=e475]
+                - combobox "平仓时间" [ref=e479]
+            - generic [ref=e480]:
+              - generic [ref=e481]: 盈亏
+              - generic [ref=e483]:
+                - button "decrease number" [ref=e484] [cursor=pointer]:
+                  - img [ref=e486]
+                - button "increase number" [ref=e488] [cursor=pointer]:
+                  - img [ref=e490]
+                - spinbutton "盈亏" [ref=e494]: "0.00"
+          - generic [ref=e495]:
+            - button "取消" [ref=e496] [cursor=pointer]:
+              - generic [ref=e497]: 取消
+            - button "确定" [ref=e498] [cursor=pointer]:
+              - generic [ref=e499]: 确定
 ```

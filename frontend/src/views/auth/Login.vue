@@ -1,17 +1,16 @@
-<!-- src/views/Login.vue -->
 <template>
   <div class="login-container">
     <el-card class="login-card">
       <h2>登录</h2>
       <el-form :model="form" @submit.prevent="handleLogin">
         <el-form-item label="用户名">
-          <el-input v-model="form.username" autocomplete="username" />
+          <el-input v-model="form.username" autocomplete="username" data-testid="username-input" />
         </el-form-item>
         <el-form-item label="密码">
-          <el-input type="password" v-model="form.password" autocomplete="current-password" />
+          <el-input type="password" v-model="form.password" autocomplete="current-password" data-testid="password-input" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" native-type="submit" :loading="loading">登录</el-button>
+          <el-button type="primary" native-type="submit" :loading="loading" data-testid="login-button">登录</el-button>
           <el-button @click="router.push('/register')">注册</el-button>
         </el-form-item>
       </el-form>

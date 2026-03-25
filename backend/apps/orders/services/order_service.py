@@ -34,6 +34,8 @@ class OrderService:
 
         # 2. 解析
         orders_data, parse_errors = parser.parse()
+        print(f"解析到的订单数据条数: {len(orders_data)}")
+        print(f"解析错误: {parse_errors}")
         if not orders_data:
             raise ValidationError("没有有效数据可导入")
 

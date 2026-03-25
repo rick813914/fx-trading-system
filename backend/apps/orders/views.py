@@ -79,21 +79,6 @@ class OrderViewSet(viewsets.ModelViewSet):
             'message': '导入任务已开始'
         }, status=status.HTTP_202_ACCEPTED)
 
-    @action(detail=False, methods=['get'], url_path='import-status/(?P<task_id>[^/.]+)')
-    def import_status(self, request, task_id):
-        """
-        查询导入任务状态
-        """
-        task = AsyncResult(task_id)
-        if task.pending:
-            return Response({'state': 'PENDING'})
-        elif task.failed():
-            return Response({'state': 'FAILURE', 'error': str(task.info)})
-        elif task.successful():
-            return Response({'state': 'SUCCESS', 'result': task.result})
-        else:
-            return Response({'state': task.state})
-
     @action(detail=False, methods=['get'], url_path='export-csv')
     def export_csv(self, request):
         """
@@ -137,3 +122,17 @@ class KPIView(APIView):
     def get(self, request):
         kpi_data = calculate_kpi(request.user.id)
         return Response(kpi_data)
+
+class ImportStatusView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, task_id):
+        task = AsyncResult(task_id)
+        if task.state == 'PENDING':
+            return Response({'state': 'PENDING'})
+        elif task.state == 'FAILURE':
+            return Response({'state': 'FAILURE', 'error': str(task.info)})
+        elif task.state == 'SUCCESS':
+            return Response({'state': 'SUCCESS', 'result': task.result})
+        else:
+            return Response({'state': task.state})
